@@ -374,7 +374,7 @@ $flash = getFlash();
     <!-- Floating product card -->
     <?php if (!empty($featured[0])): ?>
     <div class="hero-float-card">
-      <img src="<?= sanitize($featured[0]['image']) ?>" alt="<?= sanitize($featured[0]['name']) ?>" class="hero-float-img">
+      <img src="<?= productImage($featured[0]['image']) ?>" alt="<?= sanitize($featured[0]['name']) ?>" class="hero-float-img">
       <div>
         <div class="hero-float-name"><?= sanitize($featured[0]['name']) ?></div>
         <div class="hero-float-price"><?= formatPrice($featured[0]['price']) ?></div>
@@ -404,7 +404,7 @@ $flash = getFlash();
   <div class="categories-scroll reveal">
     <?php foreach ($categories as $cat): ?>
     <a href="<?= APP_URL ?>/shop.php?category=<?= urlencode($cat['slug']) ?>" class="cat-pill">
-      <img src="<?= sanitize($cat['image']) ?>" alt="<?= sanitize($cat['name']) ?>">
+      <img src="<?= productImage($cat['image']) ?>" alt="<?= sanitize($cat['name']) ?>">
       <?= sanitize($cat['name']) ?>
     </a>
     <?php endforeach; ?>
@@ -422,7 +422,7 @@ $flash = getFlash();
     <?php foreach ($featured as $p): ?>
     <div class="product-card reveal" data-product-id="<?= $p['id'] ?>">
       <div class="product-card-image">
-        <img src="<?= sanitize($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
+        <img src="<?= productImage($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
         <div class="product-card-badges">
           <?php if ($p['is_new']): ?><span class="badge badge-new">New</span><?php endif; ?>
           <?php if ($p['is_bestseller']): ?><span class="badge badge-bestseller">Best Seller</span><?php endif; ?>
@@ -491,7 +491,7 @@ $flash = getFlash();
     <?php foreach ($bestsellers as $p): ?>
     <div class="product-card reveal" data-product-id="<?= $p['id'] ?>">
       <div class="product-card-image">
-        <img src="<?= sanitize($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
+        <img src="<?= productImage($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
         <div class="product-card-badges">
           <span class="badge badge-bestseller">Best Seller</span>
           <?php if ($p['is_new']): ?><span class="badge badge-new">New</span><?php endif; ?>
@@ -542,7 +542,7 @@ $flash = getFlash();
     <?php foreach ($newArrivals as $p): ?>
     <div class="product-card reveal">
       <div class="product-card-image">
-        <img src="<?= sanitize($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
+        <img src="<?= productImage($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
         <div class="product-card-badges"><span class="badge badge-new">New</span></div>
         <button class="product-card-wishlist" onclick="toggleWishlist(<?= $p['id'] ?>, this)"><i class="fa-regular fa-heart"></i></button>
         <div class="product-card-hover">
@@ -608,7 +608,7 @@ $flash = getFlash();
     <?php
     $igImages = [
       'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=300',
-      'https://images.unsplash.com/photo-1583241800698-9f2f3d9c0c94?w=300',
+      'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=300',
       'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300',
       'https://images.unsplash.com/photo-1526045478516-99145907023c?w=300',
       'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=300',

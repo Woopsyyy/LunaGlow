@@ -226,7 +226,7 @@ $pageTitle = $categorySlug ? ($cat['name'] ?? 'Shop') : ($filter ? ucfirst($filt
       <?php foreach ($products as $p): ?>
       <div class="product-card" data-product-id="<?= $p['id'] ?>">
         <div class="product-card-image">
-          <img src="<?= sanitize($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
+          <img src="<?= productImage($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
           <div class="product-card-badges">
             <?php if ($p['is_new']): ?><span class="badge badge-new">New</span><?php endif; ?>
             <?php if ($p['is_bestseller']): ?><span class="badge badge-bestseller">Best Seller</span><?php endif; ?>

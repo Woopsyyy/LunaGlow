@@ -128,8 +128,10 @@ function getCartTotal(): float {
 
 // ── User Helpers ──────────────────────────────────────
 
-function getUserById(int $id): ?array {
-    return dbFetchOne("SELECT * FROM users WHERE id = ?", [$id]) ?: null;
+if (!function_exists('getUserById')) {
+    function getUserById(int $id): ?array {
+        return dbFetchOne("SELECT * FROM users WHERE id = ?", [$id]) ?: null;
+    }
 }
 
 // ── Image ──────────────────────────────────────────────

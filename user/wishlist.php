@@ -78,7 +78,7 @@ $wishlist = dbFetchAll("
       <?php foreach ($wishlist as $p): ?>
       <div class="product-card" id="wish-card-<?= $p['id'] ?>">
         <div class="product-card-image">
-          <img src="<?= sanitize($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
+          <img src="<?= productImage($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
           <button class="product-card-wishlist active" onclick="removeFromWishlist(<?= $p['id'] ?>, this)" title="Remove">
             <i class="fa-solid fa-heart"></i>
           </button>

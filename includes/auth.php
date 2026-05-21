@@ -51,10 +51,6 @@ function logoutAdmin(): void {
     session_regenerate_id(true);
 }
 
-function getUserById(int $id): ?array {
-    return dbFetchOne('SELECT id, name, email, phone, avatar, created_at FROM users WHERE id = ?', [$id]);
-}
-
 // ── Cart Merge (guest -> user on login) ───────────────
 
 function mergeGuestCart(int $userId): void {

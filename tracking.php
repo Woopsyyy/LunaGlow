@@ -184,7 +184,7 @@ if ($order && $order['status'] === 'cancelled') $currentStep = -1;
       <tr>
         <td>
           <div style="display:flex;align-items:center;gap:14px;">
-            <img src="<?= sanitize($item['product_image']) ?>" alt="<?= sanitize($item['product_name']) ?>">
+            <img src="<?= productImage($item['product_image']) ?>" alt="<?= sanitize($item['product_name']) ?>">
             <span style="font-size:.88rem;font-weight:500;color:var(--text-dark);"><?= sanitize($item['product_name']) ?></span>
           </div>
         </td>

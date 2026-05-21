@@ -216,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php foreach ($items as $item): ?>
       <div class="checkout-item">
         <div class="checkout-item-qty">
-          <img src="<?= sanitize($item['image']) ?>" alt="<?= sanitize($item['name']) ?>">
+          <img src="<?= productImage($item['image']) ?>" alt="<?= sanitize($item['name']) ?>">
           <span><?= $item['quantity'] ?></span>
         </div>
         <div style="flex:1;min-width:0;">

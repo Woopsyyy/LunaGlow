@@ -88,7 +88,7 @@ $total    = $subtotal + $shipping;
       <tr id="row-<?= $item['product_id'] ?>">
         <td>
           <div class="product-col">
-            <img src="<?= sanitize($item['image']) ?>" alt="<?= sanitize($item['name']) ?>">
+            <img src="<?= productImage($item['image']) ?>" alt="<?= sanitize($item['name']) ?>">
             <div>
               <a href="<?= APP_URL ?>/product.php?id=<?= $item['product_id'] ?>">
                 <div class="cart-item-name"><?= sanitize($item['name']) ?></div>

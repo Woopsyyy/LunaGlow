@@ -180,19 +180,19 @@ $discount = $product['original_price'] > 0 ? round((1 - $product['price'] / $pro
   <!-- ── Gallery ─────────────────────────────────────────── -->
   <div>
     <div class="gallery-main" id="mainGallery">
-      <img src="<?= sanitize($product['image']) ?>" alt="<?= sanitize($product['name']) ?>" id="mainImage">
+      <img src="<?= productImage($product['image']) ?>" alt="<?= sanitize($product['name']) ?>" id="mainImage">
       <?php if ($discount > 0): ?>
         <div class="gallery-discount-badge">-<?= $discount ?>%</div>
       <?php endif; ?>
     </div>
     <?php if (!empty($images)): ?>
     <div class="gallery-thumbs">
-      <div class="gallery-thumb active" onclick="switchImage('<?= sanitize($product['image']) ?>', this)">
-        <img src="<?= sanitize($product['image']) ?>" alt="Main">
+      <div class="gallery-thumb active" onclick="switchImage('<?= productImage($product['image']) ?>', this)">
+        <img src="<?= productImage($product['image']) ?>" alt="Main">
       </div>
       <?php foreach ($images as $img): ?>
-      <div class="gallery-thumb" onclick="switchImage('<?= sanitize($img['image']) ?>', this)">
-        <img src="<?= sanitize($img['image']) ?>" alt="Gallery">
+      <div class="gallery-thumb" onclick="switchImage('<?= productImage($img['image']) ?>', this)">
+        <img src="<?= productImage($img['image']) ?>" alt="Gallery">
       </div>
       <?php endforeach; ?>
     </div>
@@ -419,7 +419,7 @@ $discount = $product['original_price'] > 0 ? round((1 - $product['price'] / $pro
     <?php foreach ($related as $p): ?>
     <div class="product-card">
       <div class="product-card-image">
-        <img src="<?= sanitize($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
+        <img src="<?= productImage($p['image']) ?>" alt="<?= sanitize($p['name']) ?>" loading="lazy">
         <button class="product-card-wishlist" onclick="toggleWishlist(<?= $p['id'] ?>, this)"><i class="fa-regular fa-heart"></i></button>
         <div class="product-card-hover">
           <button class="btn btn-primary btn-full btn-sm" onclick="addToCart(<?= $p['id'] ?>, this)">

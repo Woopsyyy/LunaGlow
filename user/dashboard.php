@@ -146,7 +146,7 @@ $stats = [
         <?php foreach ($wishlist as $p): ?>
         <div class="product-card" style="box-shadow:none;border:1px solid var(--border-light);">
           <div class="product-card-image" style="height:160px;">
-            <img src="<?= sanitize($p['image']) ?>" alt="<?= sanitize($p['name']) ?>">
+            <img src="<?= productImage($p['image']) ?>" alt="<?= sanitize($p['name']) ?>">
             <button class="product-card-wishlist active" onclick="toggleWishlist(<?= $p['id'] ?>, this)">
               <i class="fa-solid fa-heart"></i>
             </button>

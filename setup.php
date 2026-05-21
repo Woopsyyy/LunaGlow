@@ -71,6 +71,8 @@ run($pdo, "CREATE TABLE admins (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) DEFAULT 'Administrator',
+    is_active TINYINT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )", "Table: admins");
 
@@ -223,8 +225,8 @@ run($pdo, "CREATE TABLE newsletter_subscribers (
 
 // Admin
 $adminPass = password_hash('admin123', PASSWORD_DEFAULT);
-run($pdo, "INSERT INTO admins (name, email, password) VALUES
-    ('Luna Admin', 'admin@lunaglow.com', '$adminPass')", "Seed: admin user");
+run($pdo, "INSERT INTO admins (name, email, password, role, is_active) VALUES
+    ('Luna Admin', 'admin@lunaglow.com', '$adminPass', 'Administrator', 1)", "Seed: admin user");
 
 // Demo user
 $demoPass = password_hash('demo123', PASSWORD_DEFAULT);
@@ -233,7 +235,7 @@ run($pdo, "INSERT INTO users (name, email, password, phone) VALUES
 
 // Categories
 run($pdo, "INSERT INTO categories (name, slug, description, image, sort_order) VALUES
-    ('Lipstick',     'lipstick',     'Velvety, long-lasting lip color',       'https://images.unsplash.com/photo-1583241800698-9f2f3d9c0c94?w=400', 1),
+    ('Lipstick',     'lipstick',     'Velvety, long-lasting lip color',       'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400', 1),
     ('Foundation',   'foundation',   'Flawless skin-like coverage',           'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400', 2),
     ('Blush',        'blush',        'Rosy cheek perfection',                 'https://images.unsplash.com/photo-1526045478516-99145907023c?w=400', 3),
     ('Mascara',      'mascara',      'Bold, dramatic lashes',                 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400', 4),
@@ -244,7 +246,8 @@ run($pdo, "INSERT INTO categories (name, slug, description, image, sort_order) V
 
 // Products
 run($pdo, "INSERT INTO products (category_id, name, slug, price, original_price, description, ingredients, stock, image, is_featured, is_bestseller, is_new, rating, review_count) VALUES
-    (1, 'Velvet Rose Lipstick',     'velvet-rose-lipstick',     499,  699,  'A rich, creamy lipstick with long-lasting velvet finish. Stays put for 12 hours without drying. Infused with vitamin E for soft, nourished lips.', 'Dimethicone, Vitamin E, Castor Oil, Rose Extract, Beeswax', 80, 'https://images.unsplash.com/photo-1583241800698-9f2f3d9c0c94?w=600', 1, 1, 0, 4.8, 124),
+    (1, 'Velvet Rose Lipstick',     'velvet-rose-lipstick',     499,  699,  'A rich, creamy lipstick with long-lasting velvet finish. Stays put for 12 hours without drying. Infused with vitamin E for soft, nourished lips.', 'Dimethicone, Vitamin E, Castor Oil, Rose Extract, Beeswax', 80, 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600', 1, 1, 0, 4.8, 124),
+
     (1, 'Berry Glam Lipstick',      'berry-glam-lipstick',      549,  799,  'Deep berry tones with a satin finish. A bold statement lip color that lasts all day.', 'Shea Butter, Beeswax, Carmine, Vitamin C', 60, 'https://images.unsplash.com/photo-1599733594230-6b823276d0b5?w=600', 0, 1, 1, 4.7, 89),
     (1, 'Nude Matte Lipstick',      'nude-matte-lipstick',      449,  0,    'The perfect everyday nude. Ultra-matte formula that stays comfortable all day long.', 'Silica, Castor Oil, Candelilla Wax, Jojoba Oil', 100, 'https://images.unsplash.com/photo-1607748851687-ba9a10438621?w=600', 0, 0, 1, 4.6, 67),
     (2, 'Glow Serum Foundation',    'glow-serum-foundation',    899,  1299, 'Skin-perfecting serum foundation with buildable coverage. Infused with hyaluronic acid for all-day hydration.', 'Hyaluronic Acid, Niacinamide, SPF 30, Glycerin', 55, 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600', 1, 1, 0, 4.9, 201),
@@ -297,7 +300,7 @@ run($pdo, "INSERT INTO orders (order_number, user_id, shipping_name, shipping_em
 VALUES ('LG-DEMO01-2026', 1, 'Sofia Reyes', 'demo@lunaglow.com', '09171234567', '123 Glow Street, Malate', 'Manila', 'Metro Manila', '1004', 'cod', 1398.00, 0.00, 1398.00, 'delivered')", "Seed: sample order");
 
 run($pdo, "INSERT INTO order_items (order_id, product_id, product_name, product_image, price, quantity) VALUES
-    (1, 1, 'Velvet Rose Lipstick', 'https://images.unsplash.com/photo-1583241800698-9f2f3d9c0c94?w=600', 499.00, 1),
+    (1, 1, 'Velvet Rose Lipstick', 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600', 499.00, 1),
     (1, 4, 'Glow Serum Foundation', 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600', 899.00, 1)
 ", "Seed: order items");
 

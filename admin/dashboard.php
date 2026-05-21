@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/../../includes/config.php';
-require_once __DIR__ . '/../../includes/db.php';
-require_once __DIR__ . '/../../includes/session.php';
-require_once __DIR__ . '/../../includes/helpers.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/session.php';
+require_once __DIR__ . '/../includes/helpers.php';
 
 requireAdmin();
 
@@ -43,8 +43,8 @@ for ($i = 6; $i >= 0; $i--) {
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/main.css">
   <style>
   :root { --sidebar-w: 260px; }
-  body { background: #f5f0f5; }
-  .admin-layout { display: grid; grid-template-columns: var(--sidebar-w) 1fr; min-height: 100vh; }
+  body { background: var(--cream); }
+  .admin-layout { display: flex; min-height: 100vh; }
 
   /* ── Sidebar ──────────────────────────────────────── */
   .admin-sidebar {
@@ -54,8 +54,9 @@ for ($i = 6; $i >= 0; $i--) {
     height: 100vh;
     display: flex; flex-direction: column;
     overflow-y: auto;
-    z-index: 100;
+    z-index: 1000;
     border-right: 1px solid rgba(255,255,255,.05);
+    transition: transform var(--transition);
   }
   .admin-sidebar-logo {
     padding: 28px 24px;
@@ -77,7 +78,7 @@ for ($i = 6; $i >= 0; $i--) {
     text-decoration: none;
     border-radius: var(--radius-md);
     margin: 2px 10px;
-    transition: .2s;
+    transition: var(--transition-fast);
   }
   .sidebar-link i { width: 18px; text-align: center; font-size: .9rem; }
   .sidebar-link:hover { background: rgba(255,255,255,.07); color: white; }
@@ -89,16 +90,58 @@ for ($i = 6; $i >= 0; $i--) {
   .admin-name { font-size: .82rem; font-weight: 600; color: white; }
   .admin-role { font-size: .72rem; color: rgba(255,255,255,.4); }
 
+  /* ── Sidebar Overlay ── */
+  .admin-sidebar-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(42,31,40,.4);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0; pointer-events: none;
+    transition: opacity var(--transition);
+  }
+  .admin-sidebar-overlay.show { opacity: 1; pointer-events: auto; }
+
+  /* ── Mobile Header ── */
+  .admin-mobile-header {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0;
+    z-index: 900;
+    width: 100%;
+    box-shadow: var(--shadow-xs);
+  }
+  .mobile-toggle-btn {
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mobile-toggle-btn:hover { background: var(--primary-glow); color: var(--primary); }
+  .mobile-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+
   /* ── Main Content ─────────────────────────────────── */
-  .admin-main { margin-left: var(--sidebar-w); padding: 32px; min-height: 100vh; }
+  .admin-main { flex: 1; margin-left: var(--sidebar-w); padding: 32px; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
   .admin-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 16px; }
   .admin-topbar h1 { font-size: 1.8rem; color: var(--text-dark); }
   .admin-topbar p { font-size: .84rem; color: var(--text-muted); margin-top: 2px; }
 
   /* ── Stat Cards ───────────────────────────────────── */
   .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 28px; }
-  .admin-stat { background: white; border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-xs); border: 1px solid var(--border-light); position: relative; overflow: hidden; }
-  .admin-stat::after { content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px; border-radius: 0 0 0 100%; background: var(--stat-color, var(--primary-light)); opacity: .5; }
+  .admin-stat { background: white; border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-xs); border: 1px solid var(--border-light); position: relative; overflow: hidden; transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
+  .admin-stat:hover { transform: translateY(-4px); box-shadow: var(--shadow-sm); }
+  .admin-stat::after { content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px; border-radius: 0 0 0 100%; background: var(--stat-color, var(--primary-light)); opacity: .3; }
   .stat-icon-box { width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--stat-color, var(--primary-light)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--stat-text, var(--primary)); margin-bottom: 16px; }
   .stat-label { font-size: .76rem; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
   .stat-value { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; color: var(--text-dark); }
@@ -108,7 +151,8 @@ for ($i = 6; $i >= 0; $i--) {
   /* ── Admin Cards ──────────────────────────────────── */
   .admin-card { background: white; border-radius: var(--radius-xl); padding: 28px; box-shadow: var(--shadow-xs); border: 1px solid var(--border-light); margin-bottom: 24px; }
   .admin-card-title { font-size: 1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
-  .admin-card-title a { font-size: .8rem; font-weight: 500; color: var(--primary); text-decoration: none; }
+  .admin-card-title a { font-size: .8rem; font-weight: 500; color: var(--primary); text-decoration: none; transition: color var(--transition-fast); }
+  .admin-card-title a:hover { color: var(--primary-dark); }
 
   /* ── Table ────────────────────────────────────────── */
   .admin-table { width: 100%; border-collapse: collapse; }
@@ -120,11 +164,30 @@ for ($i = 6; $i >= 0; $i--) {
   /* ── Two Column ───────────────────────────────────── */
   .two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }
 
-  @media(max-width:1200px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media(max-width:900px) { .admin-sidebar { transform: translateX(-100%); } .admin-main { margin-left: 0; } .two-col { grid-template-columns: 1fr; } }
+  /* ── Responsive breakpoints ── */
+  @media(max-width:1200px) { 
+    .stat-grid { grid-template-columns: repeat(2, 1fr); } 
+    .two-col { grid-template-columns: 1fr; }
+  }
+  @media(max-width:992px) {
+    .admin-sidebar { transform: translateX(-100%); }
+    .admin-sidebar.show { transform: translateX(0); }
+    .admin-main { margin-left: 0; padding: 24px 16px; }
+    .admin-mobile-header { display: flex; }
+    .admin-topbar { margin-top: 16px; }
+  }
+  @media(max-width:576px) {
+    .stat-grid { grid-template-columns: 1fr; }
+    .admin-stat { padding: 20px; }
+    .admin-topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .admin-topbar div { width: 100%; }
+    .admin-topbar div:last-child { display: flex; flex-direction: column; gap: 8px; }
+    .admin-topbar .btn { width: 100%; text-align: center; justify-content: center; }
+  }
   </style>
 </head>
 <body>
+<div class="admin-sidebar-overlay" id="sidebarOverlay"></div>
 <div class="admin-layout">
   <!-- ── Sidebar ─────────────────────────────────────── -->
   <nav class="admin-sidebar">
@@ -162,6 +225,11 @@ for ($i = 6; $i >= 0; $i--) {
 
   <!-- ── Main ───────────────────────────────────────── -->
   <main class="admin-main">
+    <div class="admin-mobile-header">
+      <button id="sidebarToggle" class="mobile-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+      <div class="mobile-logo">✦ Luna Glow</div>
+      <div style="width: 32px;"></div>
+    </div>
     <div class="admin-topbar">
       <div>
         <h1>Dashboard</h1>
@@ -266,7 +334,7 @@ for ($i = 6; $i >= 0; $i--) {
           <tr>
             <td>
               <div style="display:flex;align-items:center;gap:10px;">
-                <img src="<?= sanitize($p['image']) ?>" alt="">
+                <img src="<?= productImage($p['image']) ?>" alt="">
                 <div>
                   <div style="font-size:.84rem;font-weight:500;color:var(--text-dark);"><?= sanitize($p['name']) ?></div>
                   <div style="font-size:.74rem;color:var(--text-muted);"><?= formatPrice($p['price']) ?></div>
@@ -298,6 +366,23 @@ for ($i = 6; $i >= 0; $i--) {
 </div>
 
 <script>
+// Mobile Sidebar Toggle
+const sidebarToggle = document.getElementById('sidebarToggle');
+const sidebar = document.querySelector('.admin-sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if (sidebarToggle && sidebar && sidebarOverlay) {
+  sidebarToggle.addEventListener('click', () => {
+    sidebar.classList.add('show');
+    sidebarOverlay.classList.add('show');
+  });
+
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('show');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+
 // Revenue Chart
 const revenueData = <?= json_encode($revenueData) ?>;
 const ctx = document.getElementById('revenueChart').getContext('2d');
